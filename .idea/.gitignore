@@ -1,0 +1,14 @@
+# main stuff
+sonarlint/
+log/
+target/
+
+# User-specific stuff
+.idea/
+
+# File-based project format
+*.iws
+*.iml
+
+# IntelliJ
+out/
