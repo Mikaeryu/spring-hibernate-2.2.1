@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "cars")
 public class Car {
-
     @Id
     @Column(name = "user_id")
     private long id;
@@ -35,5 +34,14 @@ public class Car {
 
     public void setSeries(int series) {
         this.series = series;
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
