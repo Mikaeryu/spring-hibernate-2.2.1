@@ -42,10 +42,10 @@ public class MainApp {
         User user3 = new User("User3", "Lastname3", "user3@mail.ru");
         User user4 = new User("User4", "Lastname4", "user4@mail.ru");
 
-        Car car1 = new Car("Nissan", 1234);
-        Car car2 = new Car("Toyota", 2345);
-        Car car3 = new Car("Mazda", 3456);
-        Car car4 = new Car("Lexus", 4567);
+        Car car1 = new Car("Car1", 1111);
+        Car car2 = new Car("Car2", 2222);
+        Car car3 = new Car("Car3", 3333);
+        Car car4 = new Car("Car4", 4444);
 
         userService.add(user1, car1);
         userService.add(user2, car2);
@@ -53,13 +53,10 @@ public class MainApp {
         userService.add(user4, car4);
 
         List<User> users = userService.listUsers();
-        for (User user : users) {
-            System.out.println("Id = " + user.getId());
-            System.out.println("First Name = " + user.getFirstName());
-            System.out.println("Last Name = " + user.getLastName());
-            System.out.println("Email = " + user.getEmail());
-            System.out.println();
-        }
+        users.forEach(System.out::println);
+
+        List<Car> cars = userService.listCars();
+        cars.forEach(System.out::println);
 
         context.close();
 
