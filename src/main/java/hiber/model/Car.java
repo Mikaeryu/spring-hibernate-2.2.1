@@ -20,6 +20,15 @@ public class Car {
     @Column(name = "series")
     private int series;
 
+    public Car() {
+    }
+
+    public Car(User user, String model, int series) {
+        this.user = user;
+        this.model = model;
+        this.series = series;
+    }
+
     public String getModel() {
         return model;
     }
