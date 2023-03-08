@@ -58,7 +58,9 @@ public class MainApp {
         List<Car> cars = userService.listCars();
         cars.forEach(System.out::println);
 
-        context.close();
+        User foundUser = userService.getUserByCar("Car3", 3333);
+        System.out.println("FOUND USER BY CAR: " + foundUser);
 
+        context.close();
     }
 }
