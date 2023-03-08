@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImp implements UserDao {
@@ -27,8 +28,25 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public User getUserByCar(String model, int series) {
-        return null;
+        TypedQuery<Car> query = sessionFactory.getCurrentSession()
+                .createQuery("from Car where model = :model AND series = :series");
+        query.setParameter("model", model);
+        query.setParameter("series", series);
+
+        Optional<Car> carFoundOptional = query.getResultList().stream().findFirst();
+        if (!carFoundOptional.isPresent()) {
+            System.err.println("There is no car witch such parameters");
+            return null;
+        }
+
+        Car carFound = carFoundOptional.get();
+        long userId = carFound.getId();
+        TypedQuery<User> userTypedQuery = sessionFactory.getCurrentSession().createQuery("from User where id = :id");
+        userTypedQuery.setParameter("id", userId);
+
+        return userTypedQuery.getSingleResult();
     }
 
     @Override
@@ -42,6 +60,7 @@ public class UserDaoImp implements UserDao {
     @SuppressWarnings("unchecked")
     public List<Car> listCars() {
         TypedQuery<Car> query = sessionFactory.getCurrentSession().createQuery("from Car");
+
         return query.getResultList();
     }
 }
