@@ -59,4 +59,12 @@ public class Car {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "user_id = " + id + '\n' +
+                "model = " + model + '\n' +
+                "series = " + series +
+                '\n';
+    }
 }
