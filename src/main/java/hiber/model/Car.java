@@ -62,7 +62,7 @@ public class Car {
 
     @Override
     public String toString() {
-        return "user_id = " + id + '\n' +
+        return  "Car: " + "user_id = " + id + '\n' +
                 "model = " + model + '\n' +
                 "series = " + series +
                 '\n';
