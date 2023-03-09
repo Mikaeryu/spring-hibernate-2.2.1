@@ -19,6 +19,7 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    //добавил поле Сar
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Car car;
