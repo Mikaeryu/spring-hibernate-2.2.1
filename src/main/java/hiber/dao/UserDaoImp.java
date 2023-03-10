@@ -1,5 +1,6 @@
 package hiber.dao;
 
+import hiber.exceptions.CarNotFoundException;
 import hiber.model.Car;
 import hiber.model.User;
 import java.util.List;
@@ -8,7 +9,6 @@ import javax.persistence.TypedQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 
 @Repository
 public class UserDaoImp implements UserDao {
@@ -21,14 +21,12 @@ public class UserDaoImp implements UserDao {
         sessionFactory.getCurrentSession().save(user);
     }
 
-    //Добавил перегруженный метод для добавления юзера вместе с с машиной
     @Override
     public void add(User user, Car car) {
         user.setCar(car);
         sessionFactory.getCurrentSession().save(user);
     }
 
-    //метод для поиска юзера по машине
     @Override
     @SuppressWarnings("unchecked")
     public User getUserByCar(String model, int series) {
@@ -38,12 +36,8 @@ public class UserDaoImp implements UserDao {
         carQuery.setParameter("series", series);
 
         Optional<Car> carFoundOptional = carQuery.getResultList().stream().findFirst();
-        if (!carFoundOptional.isPresent()) {
-            System.err.println("There is no car witch such parameters");
-            return null;
-        } //вот тут вообще не уверен насчёт выкидывание null, это нормально, так делать? просто это рядовой запрос на поиск
 
-        Car carFound = carFoundOptional.get();
+        Car carFound = carFoundOptional.orElseThrow(() -> new CarNotFoundException("Car not found."));
         long userId = carFound.getId();
         TypedQuery<User> userQuery = sessionFactory.getCurrentSession().createQuery("from User where id = :id");
         userQuery.setParameter("id", userId);
@@ -58,7 +52,6 @@ public class UserDaoImp implements UserDao {
         return query.getResultList();
     }
 
-    //добавил метод, возрвращающий список машин
     @Override
     @SuppressWarnings("unchecked")
     public List<Car> listCars() {
