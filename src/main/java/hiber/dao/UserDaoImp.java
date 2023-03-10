@@ -32,12 +32,12 @@ public class UserDaoImp implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public User getUserByCar(String model, int series) {
-        TypedQuery<Car> query = sessionFactory.getCurrentSession()
+        TypedQuery<Car> carQuery = sessionFactory.getCurrentSession()
                 .createQuery("from Car where model = :model AND series = :series");
-        query.setParameter("model", model);
-        query.setParameter("series", series);
+        carQuery.setParameter("model", model);
+        carQuery.setParameter("series", series);
 
-        Optional<Car> carFoundOptional = query.getResultList().stream().findFirst();
+        Optional<Car> carFoundOptional = carQuery.getResultList().stream().findFirst();
         if (!carFoundOptional.isPresent()) {
             System.err.println("There is no car witch such parameters");
             return null;
@@ -45,10 +45,10 @@ public class UserDaoImp implements UserDao {
 
         Car carFound = carFoundOptional.get();
         long userId = carFound.getId();
-        TypedQuery<User> userTypedQuery = sessionFactory.getCurrentSession().createQuery("from User where id = :id");
-        userTypedQuery.setParameter("id", userId);
+        TypedQuery<User> userQuery = sessionFactory.getCurrentSession().createQuery("from User where id = :id");
+        userQuery.setParameter("id", userId);
 
-        return userTypedQuery.getSingleResult();
+        return userQuery.getSingleResult();
     }
 
     @Override
